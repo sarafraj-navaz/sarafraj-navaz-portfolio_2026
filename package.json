@@ -1,0 +1,38 @@
+{
+  "name": "sarafraj-navaz-portfolio",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "predev": "node scripts/generate-pdf-manifest.js",
+    "dev": "vite",
+    "prebuild": "node scripts/generate-pdf-manifest.js",
+    "build": "vite build",
+    "generate:bca-manifest": "node scripts/generate-pdf-manifest.js",
+    "lint": "oxlint",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@emailjs/browser": "^4.4.1",
+    "firebase": "^12.17.0",
+    "framer-motion": "^12.43.0",
+    "react": "^19.2.8",
+    "react-calendly": "^4.4.0",
+    "react-countup": "^6.5.3",
+    "react-dom": "^19.2.8",
+    "react-icons": "^5.7.0",
+    "react-router-dom": "^7.18.2",
+    "react-scroll": "^1.9.3"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.4",
+    "autoprefixer": "^10.5.4",
+    "oxlint": "^1.75.0",
+    "postcss": "^8.5.25",
+    "tailwindcss": "^4.3.3",
+    "vite": "^8.2.0"
+  }
+}
