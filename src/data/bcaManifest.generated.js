@@ -15,7 +15,7 @@ export const BCA_PDF_MANIFEST = {
   ],
   "data-structure": [
     true,
-    false,
+    true,
     false,
     false,
     false
