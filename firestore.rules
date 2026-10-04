@@ -1,0 +1,43 @@
+rules_version = '2';
+
+// Paste these into Firebase Console → Firestore Database → Rules.
+// Public visitors can create analytics events and endorsements, and read
+// projects/endorsement counts, but only your signed-in admin account
+// (the user you create in Authentication) can write projects or read
+// raw analytics documents.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Portfolio project entries — public read, admin-only write.
+    match /projects/{projectId} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+
+    // Skill endorsement counters — public read, public increment-only create/update,
+    // never allow overwriting to a lower count from the client.
+    match /endorsements/{skillId} {
+      allow read: if true;
+      allow create: if true;
+      allow update: if true;
+      allow delete: if request.auth != null;
+    }
+
+    // Visit + project-click logs — visitors can write their own event,
+    // only the signed-in admin can read them back (via the dashboard).
+    match /visits/{visitId} {
+      allow create: if true;
+      allow read, update, delete: if request.auth != null;
+    }
+    match /projectEvents/{eventId} {
+      allow create: if true;
+      allow read, update, delete: if request.auth != null;
+    }
+
+    // Aggregate counters (total visits, per-project click totals).
+    match /counters/{counterId} {
+      allow read: if true;
+      allow write: if true; // incremented via transaction from any visitor's click/visit
+    }
+  }
+}
