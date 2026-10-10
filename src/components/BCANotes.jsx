@@ -150,7 +150,7 @@ function SyllabusCard({ syllabus }) {
         <p>
           {syllabus.available
             ? "View the complete syllabus before starting your unit-wise preparation."
-            : "Add public/pdf/bca/syllabus.pdf later and this section will activate automatically."}
+            : "The complete BCA syllabus will be available here soon."}
         </p>
       </div>
       {syllabus.available ? (
@@ -198,7 +198,7 @@ export default function BCANotes() {
           <div className="bca-hero-copy">
             <span className="bca-live-badge"><span /> Study Hub</span>
             <h3>Learn smarter. Prepare better.</h3>
-            <p>Find your subject, check available notes, and open PDFs in view-only mode without download actions.</p>
+            <p>Find your subject and open unit-wise study PDFs hosted on Google Drive. New notes will appear here as they are added.</p>
           </div>
           <div className="bca-overall-progress">
             <div className="bca-progress-ring" style={{ "--bca-progress": `${percent}%` }}>
@@ -253,7 +253,7 @@ export default function BCANotes() {
           </AnimatePresence>
         </div>
 
-        <p className="bca-footer-note">Notes designed by Sarafraj Navaz • Study Smart Not Hard</p>
+        <p className="bca-footer-note">PDFs hosted on Google Drive • Notes designed by Sarafraj Navaz • Study Smart Not Hard</p>
       </div>
     </section>
   );
