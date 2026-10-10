@@ -1,6 +1,7 @@
 import { FaGraduationCap } from "react-icons/fa6";
 import SectionHeading from "./SectionHeading";
 import Timeline from "./Timeline";
+import PremiumCard from "./PremiumCard";
 import { EDUCATION } from "../data/education";
 
 export default function Education() {
@@ -13,10 +14,8 @@ export default function Education() {
           <Timeline
             items={EDUCATION}
             renderItem={(item) => (
-              <div className="glass rounded-[1.4rem] p-6 flex items-start gap-5">
-                <div className="w-12 h-12 rounded-2xl bg-primary/10 grid place-items-center shrink-0">
-                  <FaGraduationCap className="text-xl text-primary" />
-                </div>
+              <PremiumCard tilt={3} accent="violet"><div className="flex items-start gap-5">
+                <div className="pc-icon"><FaGraduationCap /></div>
                 <div>
                   <span className="inline-block font-heading text-[0.7rem] font-bold tracking-wide text-accent mb-1">
                     {item.period}
@@ -25,7 +24,7 @@ export default function Education() {
                   <p className="text-slate-500 dark:text-slate-400 text-sm mb-1">{item.place}</p>
                   <p className="text-primary text-sm font-medium">{item.meta}</p>
                 </div>
-              </div>
+              </div></PremiumCard>
             )}
           />
         </div>

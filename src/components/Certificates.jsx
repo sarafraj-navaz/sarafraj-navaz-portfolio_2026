@@ -1,6 +1,6 @@
 import { FaCertificate } from "react-icons/fa6";
 import SectionHeading from "./SectionHeading";
-import AnimatedCard from "./AnimatedCard";
+import PremiumCard from "./PremiumCard";
 import { CERTIFICATIONS } from "../data/experience";
 
 export default function Certificates() {
@@ -10,19 +10,16 @@ export default function Certificates() {
         <SectionHeading eyebrow="Certifications" title="Credentials" />
         <div className="grid sm:grid-cols-2 gap-6 max-w-3xl mx-auto">
           {CERTIFICATIONS.map((c, i) => (
-            <AnimatedCard
-              key={c.id}
-              delay={i * 0.08}
-              className="p-6 rounded-[1.4rem] glass flex items-center gap-4"
-            >
-              <div className="w-12 h-12 rounded-2xl bg-accent/10 grid place-items-center shrink-0">
-                <FaCertificate className="text-xl text-accent" />
+            <PremiumCard key={c.id} delay={i * 0.08} accent={i % 2 ? "violet" : "gold"}>
+              <div className="flex items-center gap-4">
+                <div className="pc-icon"><FaCertificate /></div>
+                <div>
+                  <h3 className="font-heading font-bold text-base mb-0.5">{c.title}</h3>
+                  <p className="text-slate-500 dark:text-slate-400 text-sm mb-2">{c.issuer} &middot; {c.year}</p>
+                  <span className="pc-badge">{c.year === "In Progress" ? "In progress" : "Verified credential"}</span>
+                </div>
               </div>
-              <div>
-                <h3 className="font-heading font-semibold text-base mb-0.5">{c.title}</h3>
-                <p className="text-slate-500 dark:text-slate-400 text-sm">{c.issuer} &middot; {c.year}</p>
-              </div>
-            </AnimatedCard>
+            </PremiumCard>
           ))}
         </div>
       </div>

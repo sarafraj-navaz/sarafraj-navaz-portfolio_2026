@@ -8,7 +8,7 @@ const CALCOM_URL = import.meta.env.VITE_CALCOM_URL;
 
 export default function Booking() {
   return (
-    <section id="booking" className="py-28 bg-slate-50 dark:bg-white/[0.02]">
+    <section id="booking" className="py-28 section-alt">
       <div className="max-w-5xl mx-auto px-6 lg:px-10">
         <SectionHeading
           eyebrow="Book a Call"

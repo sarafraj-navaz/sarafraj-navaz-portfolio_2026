@@ -1,11 +1,12 @@
 import { FaBriefcase, FaLocationDot, FaGraduationCap } from "react-icons/fa6";
 import SectionHeading from "./SectionHeading";
 import Timeline from "./Timeline";
+import PremiumCard from "./PremiumCard";
 import { EXPERIENCE } from "../data/experience";
 
 export default function Experience() {
   return (
-    <section id="experience" className="py-28 bg-slate-50 dark:bg-white/[0.02]">
+    <section id="experience" className="py-28 section-alt">
       <div className="max-w-7xl mx-auto px-6 lg:px-10">
         <SectionHeading
           eyebrow="Professional Experience"
@@ -17,9 +18,9 @@ export default function Experience() {
           <Timeline
             items={EXPERIENCE}
             renderItem={(item) => (
-              <div className={`experience-card glass rounded-[1.5rem] p-6 sm:p-7 ${item.current ? "experience-card--current" : ""}`}>
+              <PremiumCard tilt={2} accent={item.current ? "green" : "blue"}>
                 <div className="flex items-start gap-5 mb-4">
-                  <div className={`w-12 h-12 rounded-2xl grid place-items-center shrink-0 ${item.current ? "bg-emerald-500/10 text-emerald-500" : "bg-primary/10 text-primary"}`}>
+                  <div className="pc-icon">
                     {item.current ? <FaGraduationCap className="text-xl" /> : <FaBriefcase className="text-xl" />}
                   </div>
                   <div className="min-w-0 flex-1">
@@ -39,7 +40,7 @@ export default function Experience() {
                 <ul className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed list-disc list-inside space-y-1.5 pl-1">
                   {item.points.map((p) => <li key={p}>{p}</li>)}
                 </ul>
-              </div>
+              </PremiumCard>
             )}
           />
         </div>

@@ -8,7 +8,7 @@ import { analytics } from "../utils/analytics";
 
 const NAV_ITEMS = [
   "home", "about", "skills", "projects", "services",
-  "education", "experience", "achievements", "booking", "bca", "contact",
+  "education", "experience", "achievements", "bca", "contact",
 ];
 // Note: the "certificates" section sits between experience/achievements but is
 // left out of the nav to keep the menu concise — still reachable by scrolling.
@@ -28,10 +28,28 @@ export default function Navbar({ theme, toggleTheme, active, scrolled }) {
       }`}
     >
       <nav className="max-w-7xl mx-auto flex items-center justify-between px-6 lg:px-10 py-4">
-        <ScrollLink to="home" smooth duration={500} offset={-90} className="flex items-center gap-2 cursor-pointer group">
-          <img src="/images/logo.png" alt="logo" className="w-9 h-9 rounded-xl shadow-lg group-hover:scale-105 transition-transform" />
-          <span className="font-heading font-bold text-lg tracking-tight">
-            Sarafraj Navaz <span className="text-primary">Portfolio</span>
+        <ScrollLink
+          to="home"
+          smooth
+          duration={500}
+          offset={-90}
+          aria-label="Engg. Sarafraj Navaz, home"
+          className="flex items-center gap-3 cursor-pointer group min-w-0"
+        >
+          <span className="relative shrink-0">
+            <img
+              src="/images/logo.png"
+              alt="SN logo"
+              width="48"
+              height="48"
+              className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl shadow-lg ring-1 ring-blue-400/30 group-hover:scale-105 group-hover:rotate-2 transition-transform duration-300"
+            />
+            <span className="absolute -right-1 -bottom-1 w-3 h-3 rounded-full bg-emerald-500 border-2 border-white dark:border-slate-950" />
+          </span>
+          <span className="flex min-w-0 items-center">
+            <span className="font-heading font-extrabold text-base sm:text-lg tracking-tight whitespace-nowrap">
+              Engg. Sarafraj Navaz
+            </span>
           </span>
         </ScrollLink>
 

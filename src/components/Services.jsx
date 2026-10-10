@@ -1,6 +1,7 @@
 import { FaJava, FaLeaf, FaLaptopCode, FaShop, FaIdCard, FaSchool, FaMobileScreen, FaGears } from "react-icons/fa6";
+import { Link as ScrollLink } from "react-scroll";
 import SectionHeading from "./SectionHeading";
-import AnimatedCard from "./AnimatedCard";
+import PremiumCard from "./PremiumCard";
 
 const SERVICES = [
   { icon: FaJava, title: "Java Application Development", desc: "Robust, well-architected Java applications built on clean OOP and MVC principles." },
@@ -15,20 +16,18 @@ const SERVICES = [
 
 export default function Services() {
   return (
-    <section id="services" className="py-28 bg-slate-50 dark:bg-white/[0.02]">
+    <section id="services" className="py-28 section-alt">
       <div className="max-w-7xl mx-auto px-6 lg:px-10">
         <SectionHeading eyebrow="Services" title="How I can help" />
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {SERVICES.map((s, i) => (
-            <AnimatedCard
-              key={s.title}
-              delay={(i % 4) * 0.06}
-              className="p-7 rounded-[1.4rem] bg-white dark:bg-white/[0.03] border border-slate-100 dark:border-white/[0.08] shadow-[0_4px_20px_-8px_rgba(15,23,42,0.08)] hover:shadow-[0_20px_40px_-16px_rgba(37,99,235,0.25)] hover:border-primary/25 transition-shadow"
-            >
-              <s.icon className="text-2xl text-primary mb-4" />
-              <h3 className="font-heading font-semibold text-base mb-2">{s.title}</h3>
-              <p className="text-slate-500 dark:text-slate-400 text-sm">{s.desc}</p>
-            </AnimatedCard>
+            <PremiumCard key={s.title} delay={(i % 4) * 0.07} accent={["blue","gold","violet","cyan"][i % 4]}>
+              <span className="pc-index">{String(i + 1).padStart(2, "0")}</span>
+              <div className="pc-icon mb-5"><s.icon /></div>
+              <h3 className="font-heading font-bold text-[1.02rem] mb-2 tracking-tight">{s.title}</h3>
+              <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">{s.desc}</p>
+              <ScrollLink to="contact" smooth offset={-70} className="pc-link">Discuss this <span aria-hidden="true">→</span></ScrollLink>
+            </PremiumCard>
           ))}
         </div>
       </div>

@@ -1,35 +1,34 @@
+import { Suspense, lazy } from "react";
 import Hero from "../components/Hero";
 import About from "../components/About";
-import Skills from "../components/Skills";
-import Projects from "../components/Projects";
-import Services from "../components/Services";
-import Education from "../components/Education";
-import Experience from "../components/Experience";
-import { Suspense, lazy } from "react";
-import Certificates from "../components/Certificates";
-import Achievements from "../components/Achievements";
-import BCANotes from "../components/BCANotes";
-import Contact from "../components/Contact";
 
-const Booking = lazy(() => import("../components/Booking"));
+// Below-the-fold sections load on demand so the first paint is fast.
+const Skills = lazy(() => import("../components/Skills"));
+const Projects = lazy(() => import("../components/Projects"));
+const Services = lazy(() => import("../components/Services"));
+const Education = lazy(() => import("../components/Education"));
+const Experience = lazy(() => import("../components/Experience"));
+const Certificates = lazy(() => import("../components/Certificates"));
+const Achievements = lazy(() => import("../components/Achievements"));
+const BCANotes = lazy(() => import("../components/BCANotes"));
+const Contact = lazy(() => import("../components/Contact"));
 
 export default function Home() {
   return (
     <>
       <Hero />
       <About />
-      <Skills />
-      <Projects />
-      <Services />
-      <Education />
-      <Experience />
-      <Certificates />
-      <Achievements />
-      <Suspense fallback={<div className="py-28" />}>
-        <Booking />
+      <Suspense fallback={<div style={{ minHeight: "100vh" }} aria-hidden="true" />}>
+        <Skills />
+        <Projects />
+        <Services />
+        <Education />
+        <Experience />
+        <Certificates />
+        <Achievements />
+        <BCANotes />
+        <Contact />
       </Suspense>
-      <BCANotes />
-      <Contact />
     </>
   );
 }

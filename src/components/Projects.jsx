@@ -2,92 +2,76 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaGithub, FaArrowUpRightFromSquare } from "react-icons/fa6";
 import SectionHeading from "./SectionHeading";
-import { useTilt } from "../hooks/useTilt";
+import PremiumCard from "./PremiumCard";
 import { subscribeToProjects } from "../utils/projectsService";
 import { analytics } from "../utils/analytics";
 import { logProjectClick } from "../utils/siteAnalytics";
 
-function ProjectCard({ project }) {
-  const { ref, onMouseMove, onMouseLeave } = useTilt(8);
-  const [hovered, setHovered] = useState(false);
+const TABS = ["Overview", "Architecture", "Features"];
+
+function ProjectCard({ project, index }) {
+  const [tab, setTab] = useState(0);
+  const accent = ["blue", "violet", "gold"][index % 3];
 
   return (
-    <motion.article
-      initial={{ opacity: 0, y: 32 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.25 }}
-      transition={{ duration: 0.55 }}
-      ref={ref}
-      onMouseMove={(e) => {
-        onMouseMove(e);
-        setHovered(true);
-      }}
-      onMouseLeave={() => {
-        onMouseLeave();
-        setHovered(false);
-      }}
-      style={{ transformStyle: "preserve-3d" }}
-      className="group rounded-[1.6rem] overflow-hidden bg-white dark:bg-white/[0.03] border border-slate-100 dark:border-white/[0.08] shadow-[0_8px_30px_-12px_rgba(15,23,42,0.12)] hover:shadow-[0_30px_60px_-18px_rgba(37,99,235,0.35)] transition-shadow will-change-transform"
-    >
-      {/* image + hover overlay */}
-      <div className="relative aspect-[16/10] overflow-hidden">
-        <img
-          src={project.image}
-          alt={`${project.title} screenshot`}
-          loading="lazy"
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-        />
-
-        <AnimatePresence>
-          {hovered && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.25 }}
-              className="absolute inset-0 bg-secondary/92 backdrop-blur-sm p-6 flex flex-col overflow-y-auto"
-            >
-              <h4 className="font-heading font-bold text-white text-base mb-2">Technical Summary</h4>
-              <p className="text-slate-300 text-xs leading-relaxed mb-3">{project.technicalSummary}</p>
-
-              <h4 className="font-heading font-bold text-white text-base mb-1">Architecture</h4>
-              <p className="text-slate-300 text-xs leading-relaxed mb-3">{project.architecture}</p>
-
-              <h4 className="font-heading font-bold text-white text-base mb-1">Key Features</h4>
-              <ul className="text-slate-300 text-xs leading-relaxed mb-3 list-disc list-inside space-y-0.5">
-                {project.features.map((f) => <li key={f}>{f}</li>)}
-              </ul>
-
-              <div className="mt-auto flex flex-wrap gap-1.5 pt-2">
-                {project.stack.map((t) => (
-                  <span key={t} className="text-[0.65rem] font-semibold px-2 py-1 rounded-md bg-white/10 text-accent">
-                    {t}
-                  </span>
-                ))}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+    <PremiumCard as="article" delay={(index % 2) * 0.1} tilt={4} accent={accent} innerClassName="pc-project">
+      <div className="pc-project__media">
+        <img src={project.image} alt={`${project.title} screenshot`} loading="lazy" />
+        <span className="pc-project__num">{String(index + 1).padStart(2, "0")}</span>
+        {project.category && <span className="pc-project__badge">{project.category}</span>}
       </div>
 
       <div className="p-7">
-        <div className="flex items-start justify-between gap-3 mb-2">
-          <h3 className="font-heading font-bold text-xl">{project.title}</h3>
-          {project.category && (
-            <span className="shrink-0 text-[0.65rem] font-semibold px-2.5 py-1 rounded-md bg-primary/10 text-primary">
-              {project.category}
-            </span>
-          )}
-        </div>
-        <p className="text-slate-500 dark:text-slate-400 text-sm mb-4 leading-relaxed">{project.summary}</p>
-        <div className="flex flex-wrap gap-2 mb-5">
-          {project.stack.map((t) => (
-            <span key={t} className="text-[0.7rem] font-semibold px-2.5 py-1 rounded-md bg-secondary/5 dark:bg-white/[0.07] text-secondary dark:text-slate-300">
-              {t}
-            </span>
+        <h3 className="font-heading font-bold text-xl tracking-tight mb-4">{project.title}</h3>
+
+        <div className="pc-tabs" role="tablist" aria-label={`${project.title} details`}>
+          {TABS.map((t, i) => (
+            <button
+              key={t}
+              type="button"
+              role="tab"
+              aria-selected={tab === i}
+              onClick={() => setTab(i)}
+              className={`pc-tab ${tab === i ? "is-active" : ""}`}
+            >
+              {tab === i && <motion.span layoutId={`tab-${project.id}`} className="pc-tab__pill" transition={{ type: "spring", stiffness: 420, damping: 32 }} />}
+              <span className="relative z-10">{t}</span>
+            </button>
           ))}
         </div>
-        <div className="flex gap-3">
+
+        <div className="pc-tabpanel">
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.div
+              key={tab}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.22 }}
+            >
+              {tab === 0 && (
+                <>
+                  <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed mb-3">{project.summary}</p>
+                  <p className="text-slate-500 dark:text-slate-400 text-xs leading-relaxed">{project.technicalSummary}</p>
+                </>
+              )}
+              {tab === 1 && (
+                <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">{project.architecture}</p>
+              )}
+              {tab === 2 && (
+                <ul className="pc-checklist">
+                  {project.features.map((f) => <li key={f}>{f}</li>)}
+                </ul>
+              )}
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        <div className="flex flex-wrap gap-2 mt-5 mb-6">
+          {project.stack.map((t) => <span key={t} className="pc-chip">{t}</span>)}
+        </div>
+
+        <div className="flex flex-wrap gap-3">
           <a
             href={project.github}
             target="_blank"
@@ -96,7 +80,7 @@ function ProjectCard({ project }) {
               analytics.projectClick(project.title, "github");
               logProjectClick(project.id, project.title, "github");
             }}
-            className="inline-flex items-center gap-2 text-xs font-semibold px-4 py-2.5 rounded-lg border border-slate-200 dark:border-white/15 hover:border-primary hover:text-primary transition-colors"
+            className="pc-btn pc-btn--ghost"
           >
             <FaGithub /> Code
           </a>
@@ -108,13 +92,13 @@ function ProjectCard({ project }) {
               analytics.projectClick(project.title, "live_demo");
               logProjectClick(project.id, project.title, "live_demo");
             }}
-            className="inline-flex items-center gap-2 text-xs font-semibold px-4 py-2.5 rounded-lg bg-primary text-white hover:bg-accent transition-colors"
+            className="pc-btn pc-btn--solid"
           >
             <FaArrowUpRightFromSquare /> Live Demo
           </a>
         </div>
       </div>
-    </motion.article>
+    </PremiumCard>
   );
 }
 
@@ -132,11 +116,11 @@ export default function Projects() {
         <SectionHeading
           eyebrow="Projects"
           title="Things I've shipped"
-          subtitle="Hover any project to see the technical summary, architecture and stack."
+          subtitle="Switch between Overview, Architecture and Features on every project."
         />
         <div className="grid md:grid-cols-2 gap-8">
-          {projects.map((p) => (
-            <ProjectCard key={p.id} project={p} />
+          {projects.map((p, i) => (
+            <ProjectCard key={p.id} project={p} index={i} />
           ))}
         </div>
       </div>

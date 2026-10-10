@@ -2,7 +2,7 @@ export const PROJECTS = [
   {
     id: "jcart",
     title: "J-Cart — Carpets & Rugs Marketplace",
-    image: "/images/project-jcart.jpg",
+    image: "/images/project-jcart.webp",
     summary:
       "Multi-role e-commerce platform (Admin, Product Owner, Buyer) with product verification, inventory management and a WhatsApp-integrated ordering flow.",
     technicalSummary:
@@ -23,7 +23,7 @@ export const PROJECTS = [
   {
     id: "school",
     title: "Shree Laxmi Narayan Shikshan Sansthan — School Website",
-    image: "/images/project-school.jpg",
+    image: "/images/project-school.webp",
     summary:
       "A responsive school website with an admissions-focused hero, a 'why choose us' highlight panel, and clear contact and location details for parents.",
     technicalSummary:
@@ -44,7 +44,7 @@ export const PROJECTS = [
   {
     id: "portfolio",
     title: "Personal Portfolio Website",
-    image: "/images/project-portfolio.jpg",
+    image: "/images/project-portfolio.webp",
     summary:
       "A responsive portfolio with dark/light theme toggle and smooth navigation, tuned for performance.",
     technicalSummary:
@@ -64,7 +64,7 @@ export const PROJECTS = [
   {
     id: "therapist",
     title: "Sachin Chaudhary — Therapist Profile Website",
-    image: "/images/project-therapist.jpg",
+    image: "/images/project-therapist.webp",
     summary:
       "Responsive dark/light-theme profile site with an integrated contact form, shipped end-to-end to a custom domain.",
     technicalSummary:
@@ -84,7 +84,7 @@ export const PROJECTS = [
   {
     id: "wedding",
     title: "Sister Wedding Website",
-    image: "/images/project-wedding.jpg",
+    image: "/images/project-wedding.webp",
     summary:
       "A responsive event website with photo gallery, RSVP form and countdown timer.",
     technicalSummary:

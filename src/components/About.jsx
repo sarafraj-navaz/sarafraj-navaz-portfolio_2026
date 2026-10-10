@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import * as ReactCountUp from "react-countup";
 import SectionHeading from "./SectionHeading";
+import PremiumCard from "./PremiumCard";
 import { PERSONAL } from "../data/constants";
 
 // react-countup ships as CommonJS; depending on the bundler's interop,
@@ -37,7 +38,10 @@ export default function About() {
           >
             <div className="relative max-w-sm mx-auto p-2.5 rounded-[1.6rem] glass shadow-[0_30px_60px_-20px_rgba(37,99,235,0.3)] aspect-square">
               <img
-                src="/images/profile.jpg"
+                src="/images/profile.webp"
+                loading="lazy"
+                width="1000"
+                height="1333"
                 alt={`${PERSONAL.name} portrait`}
                 className="w-full h-full object-cover rounded-[1.3rem]"
               />
@@ -45,17 +49,17 @@ export default function About() {
 
             <div className="grid grid-cols-2 gap-4 mt-10 max-w-sm mx-auto">
               {STATS.map((s) => (
-                <div key={s.label} className="text-center p-5 rounded-[1.1rem] bg-primary/5 dark:bg-white/[0.04] border border-primary/10 dark:border-white/[0.08]">
-                  <span className="font-heading font-extrabold text-3xl text-primary">
+                <PremiumCard key={s.label} tilt={8} className="text-center"><div className="text-center -m-3">
+                  <span className="pc-stat text-3xl">
                     <CountUp end={s.value} duration={2} enableScrollSpy scrollSpyOnce suffix={s.suffix} />
                   </span>
                   <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">{s.label}</p>
-                </div>
+                </div></PremiumCard>
               ))}
-              <div className="text-center p-5 rounded-[1.1rem] bg-primary/5 dark:bg-white/[0.04] border border-primary/10 dark:border-white/[0.08]">
-                <p className="font-heading font-extrabold text-lg text-primary leading-tight">BCA Faculty</p>
+              <PremiumCard tilt={8} accent="green"><div className="text-center -m-3">
+                <p className="pc-stat text-lg leading-tight">BCA Faculty</p>
                 <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Current Position</p>
-              </div>
+              </div></PremiumCard>
             </div>
           </motion.div>
 

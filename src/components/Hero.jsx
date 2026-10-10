@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, Suspense, lazy } from "react";
 import { motion } from "framer-motion";
 import { FaGithub, FaLinkedinIn, FaWhatsapp, FaEnvelope, FaInstagram, FaEye, FaGraduationCap } from "react-icons/fa";
 import { Link as ScrollLink } from "react-scroll";
@@ -7,7 +7,7 @@ import FloatingShapes from "./FloatingShapes";
 import { GradientButton, OutlineButton, IconButton } from "./Buttons";
 import { PERSONAL } from "../data/constants";
 import { analytics } from "../utils/analytics";
-import VisitorCounter from "./VisitorCounter";
+const VisitorCounter = lazy(() => import("./VisitorCounter"));
 
 const ROLES = PERSONAL.taglineRoles;
 
@@ -59,7 +59,7 @@ export default function Hero() {
       <div className="absolute inset-0 -z-10">
         <Particles className="opacity-60 dark:opacity-100" />
       </div>
-      <div className="absolute inset-0 bg-gradient-to-b from-white via-white to-slate-50 dark:from-secondary dark:via-[#0b1324] dark:to-secondary -z-20" />
+      <div className="absolute inset-0 hero-bg -z-20" />
       <FloatingShapes />
 
       <div className="max-w-7xl mx-auto px-6 lg:px-10 grid lg:grid-cols-2 gap-16 items-center w-full">
@@ -73,7 +73,7 @@ export default function Hero() {
             Currently Teaching · BCA Faculty
           </div>
 
-          <h1 className="font-heading font-extrabold text-4xl sm:text-5xl lg:text-6xl leading-[1.08] mb-5">
+          <h1 className="hero-title font-heading font-extrabold text-4xl sm:text-5xl lg:text-6xl leading-[1.08] mb-5">
             Hi, I'm <span className="gradient-text">{PERSONAL.name}</span>
           </h1>
 
@@ -84,7 +84,7 @@ export default function Hero() {
             <span className="text-accent animate-pulse">|</span>
           </div>
 
-          <p className="text-slate-500 dark:text-slate-400 text-lg mb-8 max-w-xl leading-relaxed">
+          <p className="hero-intro text-slate-500 dark:text-slate-400 text-lg mb-8 max-w-xl leading-relaxed">
             {PERSONAL.heroSummary}
           </p>
 
@@ -107,7 +107,7 @@ export default function Hero() {
           </div>
 
           <div className="flex flex-wrap items-center gap-5">
-            <VisitorCounter />
+            <Suspense fallback={null}><VisitorCounter /></Suspense>
             <div className="h-8 w-px bg-slate-200 dark:bg-white/10 hidden sm:block" />
             <span className="text-xs uppercase tracking-widest text-slate-400">Find me</span>
             <div className="flex gap-3">
@@ -136,19 +136,22 @@ export default function Hero() {
           transition={{ duration: 0.7, delay: 0.15 }}
           className="relative flex justify-center lg:justify-end"
         >
-          <div className="relative w-[min(420px,80vw)] aspect-[4/5]">
+          <div className="hero-portrait-wrap relative w-[min(420px,80vw)] aspect-[4/5]">
             <div
               className="absolute -inset-[18px] rounded-[2rem] opacity-35 blur-[2px] animate-[spin_8s_linear_infinite]"
-              style={{ background: "conic-gradient(from 0deg, #2563EB, #38BDF8, #7C3AED, #2563EB)" }}
+              style={{ background: "conic-gradient(from 0deg, #6366F1, #22D3EE, #E5C07B, #A78BFA, #6366F1)" }}
             />
             <motion.div
               animate={{ y: [0, -16, 0] }}
               transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-              className="relative w-full h-full p-2.5 rounded-[1.9rem] glass shadow-[0_30px_60px_-20px_rgba(37,99,235,0.35)]"
+              className="hero-portrait relative w-full h-full p-2.5 rounded-[1.9rem] glass shadow-[0_30px_60px_-20px_rgba(99,102,241,0.4)]"
             >
               <img
-                src="/images/profile-professional.png"
-                alt={`${PERSONAL.name} - ${PERSONAL.role}`}
+                src="/images/profile-professional.webp"
+                fetchpriority="high"
+                width="1000"
+                height="1000"
+                alt={`${PERSONAL.name} — Engineer and Java Full Stack Developer`}
                 className="w-full h-full object-cover rounded-[1.75rem]"
               />
             </motion.div>

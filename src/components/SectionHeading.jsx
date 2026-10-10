@@ -9,10 +9,10 @@ export default function SectionHeading({ eyebrow, title, subtitle, center = true
       transition={{ duration: 0.6, ease: "easeOut" }}
       className={center ? "text-center mb-16" : "mb-16"}
     >
-      <span className="inline-block font-heading text-xs font-bold tracking-[0.2em] uppercase text-primary mb-3">
-        {eyebrow}
+      <span className="eyebrow">
+        <i aria-hidden="true" />{eyebrow}<i aria-hidden="true" />
       </span>
-      <h2 className="font-heading font-extrabold text-3xl sm:text-4xl lg:text-5xl tracking-tight">
+      <h2 className="font-heading font-extrabold text-3xl sm:text-4xl lg:text-5xl tracking-tight section-title">
         {title}
       </h2>
       {subtitle && (

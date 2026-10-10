@@ -11,13 +11,12 @@ import Home from "./pages/Home";
 import { useTheme } from "./hooks/useTheme";
 import { useScrollSpy } from "./hooks/useScrollSpy";
 import { initAnalytics, analytics } from "./utils/analytics";
-import { logVisit } from "./utils/siteAnalytics";
 
 const Admin = lazy(() => import("./admin/Admin"));
 
 const SECTION_IDS = [
   "home", "about", "skills", "projects", "services",
-  "education", "experience", "certificates", "achievements", "booking", "bca", "contact",
+  "education", "experience", "certificates", "achievements", "bca", "contact",
 ];
 
 function Layout() {
@@ -27,7 +26,10 @@ function Layout() {
   useEffect(() => {
     initAnalytics();
     analytics.pageView(window.location.pathname);
-    logVisit();
+    // Load Firebase-backed analytics only after first paint (keeps it off the critical path).
+    const run = () => import("./utils/siteAnalytics").then((m) => m.logVisit()).catch(() => {});
+    const idle = window.requestIdleCallback || ((cb) => setTimeout(cb, 1500));
+    idle(run);
   }, []);
 
   return (

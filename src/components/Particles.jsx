@@ -31,7 +31,7 @@ export default function Particles({ className = "" }) {
 
     function draw() {
       ctx.clearRect(0, 0, w, h);
-      const color = isDark() ? "56,189,248" : "37,99,235";
+      const color = isDark() ? "34,211,238" : "99,102,241";
       particles.forEach((p) => {
         p.x += p.vx;
         p.y += p.vy;

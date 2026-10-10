@@ -1,44 +1,56 @@
 import { useEffect, useState } from "react";
 import { FaUsers } from "react-icons/fa6";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, onSnapshot } from "firebase/firestore";
 import { db, isFirebaseConfigured } from "../firebase";
 
 export default function VisitorCounter({ compact = false }) {
   const [visits, setVisits] = useState(null);
+  const [unavailable, setUnavailable] = useState(false);
 
   useEffect(() => {
-    let active = true;
-    async function load() {
-      if (!isFirebaseConfigured) return;
-      try {
-        const snap = await getDoc(doc(db, "counters", "site"));
-        if (active) setVisits(snap.exists() ? Number(snap.data().totalVisits || 0) : 0);
-      } catch (error) {
-        console.error("[VisitorCounter] failed:", error);
-      }
+    if (!isFirebaseConfigured || !db) {
+      setUnavailable(true);
+      return undefined;
     }
-    load();
-    return () => { active = false; };
+
+    // Live subscription keeps the public count in sync without refreshing.
+    const unsubscribe = onSnapshot(
+      doc(db, "counters", "site"),
+      (snap) => {
+        setVisits(snap.exists() ? Number(snap.data().totalVisits || 0) : 0);
+        setUnavailable(false);
+      },
+      (error) => {
+        console.error("[VisitorCounter] live count unavailable:", error);
+        setUnavailable(true);
+      }
+    );
+
+    return unsubscribe;
   }, []);
+
+  const count = visits === null ? "—" : visits.toLocaleString();
 
   if (compact) {
     return (
-      <div className="visitor-counter visitor-counter--compact" aria-label="Portfolio visitor count">
+      <div className="visitor-counter visitor-counter--compact glass-surface" aria-label={`Portfolio visitors: ${count}`}>
         <span className="visitor-counter__dot" />
         <FaUsers aria-hidden="true" />
-        <span>{visits === null ? "—" : visits.toLocaleString()}</span>
-        <small>Visitors</small>
+        <span>{count}</span>
+        <small>{unavailable ? "Count offline" : "Visitors"}</small>
       </div>
     );
   }
 
   return (
-    <div className="visitor-counter" aria-label="Portfolio visitor count">
+    <div className="visitor-counter glass-surface" aria-label={`Portfolio visitors: ${count}`}>
       <div className="visitor-counter__icon"><FaUsers aria-hidden="true" /></div>
       <div>
         <span className="visitor-counter__label">Portfolio Visitors</span>
-        <strong>{visits === null ? "—" : visits.toLocaleString()}</strong>
-        <span className="visitor-counter__sub">Thank you for visiting</span>
+        <strong>{count}</strong>
+        <span className="visitor-counter__sub">
+          {unavailable ? "Connect Firebase to enable live count" : "Thanks for stopping by"}
+        </span>
       </div>
     </div>
   );

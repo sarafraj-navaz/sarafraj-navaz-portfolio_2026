@@ -1,73 +1,68 @@
 import { Link as ScrollLink } from "react-scroll";
-import { FaGithub, FaLinkedinIn, FaWhatsapp, FaEnvelope, FaInstagram } from "react-icons/fa6";
+import { FaGithub, FaLinkedinIn, FaWhatsapp, FaEnvelope, FaInstagram, FaCode, FaGraduationCap, FaLightbulb, FaBriefcase, FaUser, FaGear, FaFolderOpen } from "react-icons/fa6";
 import { PERSONAL } from "../data/constants";
 import { analytics } from "../utils/analytics";
-import VisitorCounter from "./VisitorCounter";
-
+import { Suspense, lazy } from "react";
+const VisitorCounter = lazy(() => import("./VisitorCounter"));
 const LINKS = ["about", "skills", "projects", "contact"];
+const LINK_ICONS = { about: FaUser, skills: FaGear, projects: FaFolderOpen, contact: FaEnvelope };
 
 export default function Footer() {
   return (
-    <footer className="bg-secondary text-white pt-16 pb-8">
-      <div className="max-w-7xl mx-auto px-6 lg:px-10">
-        <div className="grid md:grid-cols-3 gap-10 pb-10 border-b border-white/10">
-          <div>
-            <ScrollLink to="home" smooth duration={500} offset={-90} className="flex items-center gap-2 mb-4 cursor-pointer">
-              <img src="/images/logo.png" alt="logo" className="w-9 h-9 rounded-xl" />
-              <span className="font-heading font-bold text-lg">
-                Sarafraj<span className="text-accent">.</span>dev
+    <footer className="portfolio-footer relative overflow-hidden">
+      <div className="footer-glow footer-glow--left" aria-hidden="true" />
+      <div className="footer-glow footer-glow--right" aria-hidden="true" />
+      <div className="footer-inner max-w-7xl mx-auto px-5 sm:px-7 lg:px-10 relative">
+        <div className="footer-grid">
+          <section className="footer-about">
+            <ScrollLink to="home" smooth duration={500} offset={-90} className="footer-brand cursor-pointer">
+              <span className="footer-logo"><img src="/images/logo.png" alt="" /></span>
+              <span className="footer-brand-copy">
+                <strong>Engg. Sarafraj Navaz</strong>
+                <small>BUILD <i>•</i> CODE <i>•</i> CREATE</small>
               </span>
             </ScrollLink>
-            <p className="text-slate-400 text-sm leading-relaxed max-w-xs">
-              Java Full Stack Developer & BCA Faculty at {PERSONAL.currentCollege}, {PERSONAL.location}.
-            </p>
-          </div>
-
-          <div>
-            <h4 className="font-heading font-semibold mb-4">Quick Links</h4>
-            <ul className="space-y-2 text-sm text-slate-400">
-              {LINKS.map((id) => (
-                <li key={id}>
-                  <ScrollLink to={id} smooth duration={500} offset={-90} className="capitalize cursor-pointer hover:text-accent hover:pl-1 transition-all">
-                    {id}
-                  </ScrollLink>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="font-heading font-semibold mb-4">Current Position</h4>
-            <p className="text-sm text-slate-300 font-semibold">{PERSONAL.currentPosition}</p>
-            <p className="text-xs text-slate-500 mt-1">{PERSONAL.currentCollege} · {PERSONAL.currentCollegeHindi}</p>
-            <p className="text-xs text-slate-500 mt-1">{PERSONAL.currentAddress}</p>
-            <div className="mt-5"><VisitorCounter compact /></div>
-
-            <h4 className="font-heading font-semibold mb-4 mt-7">Connect</h4>
-            <p className="text-xs text-slate-500 mb-3">Instagram · @sarafraj_navaz2000</p>
-            <div className="flex gap-3 flex-wrap">
-              <a href={PERSONAL.github} target="_blank" rel="noreferrer" onClick={() => analytics.socialClick("github")} className="w-10 h-10 rounded-xl grid place-items-center bg-white/10 hover:bg-primary transition-colors">
-                <FaGithub />
-              </a>
-              <a href={PERSONAL.linkedin} target="_blank" rel="noreferrer" onClick={() => analytics.socialClick("linkedin")} className="w-10 h-10 rounded-xl grid place-items-center bg-white/10 hover:bg-primary transition-colors">
-                <FaLinkedinIn />
-              </a>
-              <a href={PERSONAL.instagram} target="_blank" rel="noreferrer" aria-label="Instagram @sarafraj_navaz2000" onClick={() => analytics.socialClick("instagram")} className="w-10 h-10 rounded-xl grid place-items-center bg-white/10 hover:bg-primary transition-colors">
-                <FaInstagram />
-              </a>
-              <a href={PERSONAL.whatsapp} target="_blank" rel="noreferrer" onClick={() => analytics.socialClick("whatsapp")} className="w-10 h-10 rounded-xl grid place-items-center bg-white/10 hover:bg-primary transition-colors">
-                <FaWhatsapp />
-              </a>
-              <a href={`mailto:${PERSONAL.email}`} onClick={() => analytics.socialClick("email")} className="w-10 h-10 rounded-xl grid place-items-center bg-white/10 hover:bg-primary transition-colors">
-                <FaEnvelope />
-              </a>
+            <p className="footer-description">Java Full Stack Developer &amp; BCA Faculty at {PERSONAL.currentCollege}, {PERSONAL.location}.</p>
+            <div className="footer-expertise">
+              <span><FaCode />Full Stack Development</span>
+              <span><FaGraduationCap />Teaching &amp; Mentoring</span>
+              <span><FaLightbulb />Building Future Tech</span>
             </div>
-          </div>
-        </div>
+          </section>
 
-        <div className="flex flex-col sm:flex-row justify-between items-center gap-3 pt-6 text-sm text-slate-500">
-          <p>&copy; {new Date().getFullYear()} {PERSONAL.name}. All rights reserved.</p>
-          <p>Designed &amp; built with care.</p>
+          <nav className="footer-links" aria-label="Footer navigation">
+            <h4><span className="footer-heading-icon"><FaCode /></span>Quick Links</h4>
+            <ul>{LINKS.map(id => { const Icon = LINK_ICONS[id]; return <li key={id}><ScrollLink to={id} smooth duration={500} offset={-90} className="cursor-pointer"><Icon /><span className="capitalize">{id}</span><b>›</b></ScrollLink></li>; })}</ul>
+          </nav>
+
+          <section className="footer-position">
+            <h4><span className="footer-heading-icon"><FaBriefcase /></span>Current Position</h4>
+            <div className="footer-position-card">
+              <strong>{PERSONAL.currentPosition}</strong>
+              <span className="footer-college">{PERSONAL.currentCollege}</span>
+              <p>{PERSONAL.currentAddress}</p>
+              <div className="footer-availability"><span />Available for Opportunities <b>›</b></div>
+            </div>
+            <div className="footer-visitors"><Suspense fallback={null}><VisitorCounter compact /></Suspense></div>
+          </section>
+
+          <section className="footer-connect">
+            <h4><span className="footer-heading-icon"><FaInstagram /></span>Connect</h4>
+            <p className="footer-handle">Instagram <span>·</span> @sarafraj_navaz2000</p>
+            <div className="footer-socials">
+              <a href={PERSONAL.github} aria-label="GitHub" target="_blank" rel="noreferrer" onClick={() => analytics.socialClick("github")} className="footer-social"><FaGithub /></a>
+              <a href={PERSONAL.linkedin} aria-label="LinkedIn" target="_blank" rel="noreferrer" onClick={() => analytics.socialClick("linkedin")} className="footer-social"><FaLinkedinIn /></a>
+              <a href={PERSONAL.instagram} aria-label="Instagram" target="_blank" rel="noreferrer" onClick={() => analytics.socialClick("instagram")} className="footer-social"><FaInstagram /></a>
+              <a href={PERSONAL.whatsapp} aria-label="WhatsApp" target="_blank" rel="noreferrer" onClick={() => analytics.socialClick("whatsapp")} className="footer-social"><FaWhatsapp /></a>
+              <a href={`mailto:${PERSONAL.email}`} aria-label="Email" onClick={() => analytics.socialClick("email")} className="footer-social"><FaEnvelope /></a>
+            </div>
+            <p className="footer-signoff">Let’s build something great<span>.</span></p>
+          </section>
+        </div>
+        <div className="footer-bottom">
+          <p>© 2026 <strong>Engg. Sarafraj Navaz.</strong> All rights reserved.</p>
+          <span className="footer-code-mark"><i />&lt;/&gt;<i /></span>
+          <p className="footer-built"><span>♥</span> Designed &amp; built with care.</p>
         </div>
       </div>
     </footer>

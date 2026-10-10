@@ -19,7 +19,7 @@ export default function MouseGlow() {
       className="hidden md:block fixed top-0 left-0 w-[420px] h-[420px] -ml-[210px] -mt-[210px] rounded-full pointer-events-none z-[1] will-change-transform"
       style={{
         background:
-          "radial-gradient(circle, rgba(37,99,235,0.14) 0%, rgba(124,58,237,0.07) 40%, transparent 70%)",
+          "radial-gradient(circle, rgba(99,102,241,0.16) 0%, rgba(229,192,123,0.06) 40%, transparent 70%)",
       }}
     />
   );
